@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CF Mirror - Minecraft Mods</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101216;color:#eee;font-family:Arial,sans-serif}
+header{padding:22px 7%;background:#191d24;border-bottom:1px solid #303640}
+header h2{margin:0;color:#f59e0b}
+main{max-width:1100px;margin:40px auto;padding:0 20px}
+h1{font-size:34px}
+input,select{background:#202630;color:white;border:1px solid #394351;padding:13px;border-radius:8px}
+input{width:100%;margin:15px 0}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
+.card{background:#1b2028;border:1px solid #343b47;border-radius:12px;padding:20px}
+.card h3{margin-top:0}
+.card p{color:#aeb6c2;min-height:40px}
+.tag{color:#f5ae36;font-size:13px}
+a{display:inline-block;background:#e99b24;color:#171717;padding:10px 16px;border-radius:7px;text-decoration:none;font-weight:bold}
+footer{text-align:center;color:#777;padding:40px}
+</style>
+</head>
+<body>
+<header><h2>⚒ CF Mirror</h2></header>
+<main>
+<h1>Minecraft Mods</h1>
+<p>自分のお気に入りMinecraft MODを探そう。</p>
+<input id="search" placeholder="MODを検索..." oninput="render()">
+<div class="filters">
+<select id="loader" onchange="render()">
+<option value="">すべてのローダー</option>
+<option>Forge</option>
+<option>Fabric</option>
+<option>NeoForge</option>
+</select>
+<select id="version" onchange="render()">
+<option value="">すべてのバージョン</option>
+<option>1.21.1</option>
+<option>1.20.1</option>
+<option>1.21.4</option>
+</select>
+</div>
+<div class="mods" id="mods"></div>
+</main>
+<footer>CF Mirror · Minecraft Mod Catalog</footer>
+<script>
+const mods = [
+{
+ name:"Sodium",
+ description:"Minecraftの描画を最適化するMOD。",
+ loader:"Fabric",
+ version:"1.21.1",
+ url:"https://www.curseforge.com/minecraft/mc-mods/sodium"
+},
+{
+ name:"Just Enough Items",
+ description:"アイテムのレシピを確認できるMOD。",
+ loader:"Forge",
+ version:"1.20.1",
+ url:"https://www.curseforge.com/minecraft/mc-mods/jei"
+},
+{
+ name:"Create",
+ description:"機械や自動化装置を追加するMOD。",
+ loader:"Forge",
+ version:"1.21.1",
+ url:"https://www.curseforge.com/minecraft/mc-mods/create"
+}
+];
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const l=document.getElementById("loader").value;
+ const v=document.getElementById("version").value;
+ document.getElementById("mods").innerHTML=mods.filter(m=>
+ m.name.toLowerCase().includes(q)&&(!l||m.loader===l)&&(!v||m.version===v)
+ ).map(m=>`
+ <div class="card">
+ <h3>${m.name}</h3>
+ <p>${m.description}</p>
+ <div class="tag">${m.loader} · Minecraft ${m.version}</div>
+ <p><a href="${m.url}" target="_blank" rel="noopener">CurseForgeで見る</a></p>
+ </div>`).join("");
+}
+render();
+</script>
+</body>
+</html>
